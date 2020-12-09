@@ -1,0 +1,118 @@
+{% load cms %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>{{ site_name }}</title>
+    {% include "default/include/common.html" %}
+    <link href="/static/assets/vendor/venobox/venobox.css" rel="stylesheet">
+    <script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=8a57442b4d5975f141652caf2f6fc1df"></script>
+</head>
+<body>
+{% include "default/include/header.html" %}
+<main>
+    <figure class="banner bg-img bg-inverse probootstrap-cover hidden-sm hidden-xs" data-height="300" style="background-image: url({{category_top.img.url}})">
+        <figcaption class="banner-caption">
+            <div class="container text-center">
+                <div class="display-1 m-b text-black"></div>
+            </div>
+        </figcaption>
+    </figure>
+    <figure class="banner bg-img bg-inverse probootstrap-cover hidden-lg hidden-md" data-height="100" style="background-image: url({{category_top.img.url}})">
+        <figcaption class="banner-caption">
+            <div class="container text-center">
+                <div class="text-lg m-b"></div>
+            </div>
+        </figcaption>
+    </figure>
+    <div class="bg-white">
+        <div class="container p-b-lg" id="Container">
+            {% with article.category.hash_id|category_list as category_list %}
+                <div class="artInfo p-y-md">所在位置：<a href="/">首页</a> {% for foo in category_list %}
+                    > <a href="{{ foo|get_link }}">{{ foo.title }}</a>
+                {% endfor %}
+                </div>
+            {% endwith %}
+			<div class="solid-bottom p-t-xs p-b-md">
+				<h3 class="text-bold">{{ article.title }}</h3>
+			</div>
+            <div id="Container" class="b-t">
+                <div class="ContainerCon">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {{ article.body|safe }}
+                        </div>
+                        <div class="col-lg-6" style="height: 300px" id="BDMAP"></div>
+                    </div>
+                </div>
+                <div class="row p-t-md">
+                    {% for foo in album %}
+                        <div class="col-lg-3 col-6">
+                            <div class="card por portfolio-item" style="height: 320px;">
+                                <div class="photo-item">
+                                    <a href="{{ foo.img|resize:'1000x600' }}" data-gall="portfolioGallery" class="venobox" title="{{ foo.title }}">
+                                        <img class="img-responsive" src="{{ foo.img|resize:'300x300' }}"/>
+                                    </a>
+                                </div>
+                                <div class="card-block">
+                                    <div class="text-df m-b">{{ foo.title }}</div>
+                                    <p class="text-cut clamp3">{{ foo.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="list-unstyled m-t-lg p-y flex justify-between b-t">
+                <div>
+                    {% with article|nearby:'before' as before %}
+                        {% if before %}
+                            <div class="btn btn-default btn-lg flex align-center"><a href="{{ before|get_link }}"><i class="fa fa-angle-left m-r"></i><span
+                                    class="hidden-sm hidden-xs">{{ before.title }}</span></a></div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+                <div>
+                    {% with article|nearby:'after' as after %}
+                        {% if after %}
+                            <div class="btn btn-default btn-lg flex align-center"><a href="{{ after|get_link }}"><span class="hidden-sm hidden-xs">{{ after.title }}</span><i
+                                    class="fa fa-angle-right m-l"></i></a></div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% include "default/include/footer.html" %}
+
+
+<script src="/static/assets/vendor/venobox/venobox.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.venobox').venobox();
+    });
+</script>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMapGL.Map("BDMAP");
+	var point = new BMapGL.Point(119.222706, 34.620995);
+	map.centerAndZoom(point, 18);
+
+	var marker = new BMapGL.Marker(point);  // 创建标注
+	map.addOverlay(marker);              // 将标注添加到地图中
+	var opts = {
+	    width : 200,     // 信息窗口宽度
+	    height: 100,     // 信息窗口高度
+	    title : "中旭消防" , // 信息窗口标题
+	    message:"0518-85869119"
+	}
+	var infoWindow = new BMapGL.InfoWindow("地址：江苏省连云港市海州区凌州东路德惠商务大厦B座1917室", opts);  // 创建信息窗口对象
+	marker.addEventListener("click", function(){
+		map.openInfoWindow(infoWindow, point); //开启信息窗口
+	});
+</script>
+</body>
+</html>

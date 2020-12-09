@@ -1,0 +1,53 @@
+<!-- Header -->
+{% load cms %}
+<header id="header">
+	<div class="container flex align-center">
+		<div class="logo mr-auto">
+		  <a href="/"><img class="img-responsive" src="/static/assets/img/logo/logo.png"/></a>
+		</div>
+		<form class="navbar-form navbar-right app-search-form hidden-sm hidden-xs" role="search" method="get" action="/search">
+		    <div class="form-group">
+		        <div class="input-group">
+		            <input class="form-control" type="search" id="keywords" name="keywords" style="font-size: 14px; width: 200px; height: 40px;" placeholder="搜索"/>
+		            <span class="input-group-btn">
+						<button class="btn" type="submit" style="height: 40px; font-size: 24px; line-height: 22px;"><i class="ion-ios-search-strong"></i></button>
+					</span>
+		        </div>
+		    </div>
+		</form>
+		<div class="m-l">
+			<div class=""><i class="fa fa-phone"></i><span class="m-l">咨询服务热线</span></div>
+			<div class="text-xl">{{ static|get_static:3 }}</div>
+		</div>
+	</div>
+    <div class="bg-blue">
+		<div class="container">
+			<nav class="nav-menu d-none d-lg-block">
+					  <ul id="main-menu" class="text-df">
+					      <li {% if not category_top %}class="active"{% endif %}>
+					          <a href="/">首页</a>
+					      </li>
+					      {% with category|top_category as top %}
+					          {% for item in top %}
+					              {% with category|sub_category:item.hash_id as sub %}
+					                  <li class="{% if sub %}drop-down{% endif %} {% if category_top == item %}active{% endif %}">
+					                  <a href="{{ item|get_link }}">{{ item.title }}</a>
+					                  {% if sub %}
+					                      {#有下级分类情况#}
+					                      <ul>
+					                          {% for sub_item in sub %}
+					                              <li>
+					                                  <a href="{{ sub_item|get_link }}">{{ sub_item.title }}</a>
+					                              </li>
+					                          {% endfor %}
+					                      </ul>
+					                  {% endif %}
+					                  </li>
+					              {% endwith %}
+					          {% endfor %}
+					      {% endwith %}
+					  </ul>
+			</nav>
+		</div>
+    </div>
+  </header>

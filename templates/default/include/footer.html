@@ -1,0 +1,141 @@
+{% load cms %}
+<footer class="app-layout-footer bg-gray solid-top">
+	<div class="container p-y-md">
+			<div class="flex hidden-sm hidden-xs">
+				<div class="m-r-md">网站链接:</div>
+				{% with 'fSty6hWb1d'|get_article:'id' as tech %}
+					{% for detail in tech %}
+					<div class="m-r-md">
+						<a href="{{ detail|get_link }}" target="_blank">{{ detail.title }}</a>
+					</div>
+					{% endfor %}
+				{% endwith %}
+			</div>
+			<div class="hidden-lg hidden-md">
+				<div class="m-b-sm">网站链接:</div>
+				{% with 'fSty6hWb1d'|get_article:'id' as tech %}
+					{% for detail in tech %}
+					<div class="m-b-sm">
+						<a href="{{ detail|get_link }}" target="_blank">{{ detail.title }}</a>
+					</div>
+					{% endfor %}
+				{% endwith %}
+			</div>
+		</div>
+	</div>
+	<div class="p-y-md bg-black opacity-8">
+		<div class="container text-sm opacity-5 hidden-sm hidden-xs">
+			版权所有：{{ static|get_static:1 }}<span class="m-x-xs">|</span>
+			备案号：<a href="https://beian.miit.gov.cn/" class="link-white" target="_blank">{{ static|get_static:2 }}</a><span class="m-x-xs">|</span>
+			地址：{{ static|get_static:4 }}<span class="m-x-xs">|</span>
+			服务热线：<span class="text-bold">{{ static|get_static:3 }}</span>
+		</div>
+		<div class="container text-sm opacity-5 hidden-lg hidden-md">
+			<div>版权所有：{{ static|get_static:1 }}</div>
+			服务热线：{{ static|get_static:3 }}
+		</div>
+	</div>
+</footer>
+<div class="suspension">
+	<div class="suspension-box">
+		<a href="javascript:;" class="a a-service-phone"><i class="i"></i></a>
+		
+		<a href="javascript:;" class="a a-qrcode"><i class="i"></i></a>
+		<a href="javascript:;" class="a a-service "><i class="i"></i></a>
+		<a href="javascript:;" class="a a-top"><i class="i"></i></a>
+		<div class="d d-service-phone">
+			<i class="arrow"></i>
+			<div class="inner-box">
+				<div class="d-service-item clearfix">
+					<span class="circle"><i class="i-tel"></i></span>
+					<div class="text">
+						<p>服务热线</p>
+						<p class="text-bold number"><a href="tel:{{ static.site_tel }}">{{ static|get_static:3 }}</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="d d-service">
+			<i class="arrow"></i>
+			<div class="inner-box">
+				<div class="d-service-item clearfix">
+					<span class="circle" style="margin-bottom: 20px;"><i class="i-qq"></i></span>
+					<div class="text">
+						<p>QQ在线客服</p>
+						<p class="text-bold number"><a href="tencent://message/?Menu=yes&uin=843733828&Site=80fans&Service=300&sigT=45a1e5847943b64c6ff3990f8a9e644d2b31356cb0b4ac6b24663a3c8dd0f8aa12a545b1714f9d45">843733828</a></p>
+					</div>
+				</div>						
+			</div>
+		</div>
+		<div class="d d-qrcode">
+			<i class="arrow"></i>
+			<div class="inner-box">
+				<div class="qrcode-img"><img src="/static/assets/img/photos/QRcode.jpg"></div>
+				<p>微信号：ZL16725266999</p>
+			</div>
+		</div>
+	</div>
+</div>  
+
+<script src="/static/assets/js/core/jquery.min.js"></script>
+<script src="/static/assets/js/core/bootstrap.min.js"></script>
+<script src="/static/assets/js/core/jquery.slimscroll.min.js"></script>
+<script src="/static/assets/js/core/jquery.scrollLock.min.js"></script>
+<script src="/static/assets/js/core/jquery.placeholder.min.js"></script>
+<script src="/static/assets/js/jquery.easing.1.3.js"></script>
+<script src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/static/assets/vendor/php-email-form/validate.js"></script>
+<script src="/static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="/static/assets/vendor/venobox/venobox.min.js"></script>
+<script src="/static/assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+<script src="/static/assets/vendor/aos/aos.js"></script>
+<script src="/static/assets/js/app.js"></script>
+<script src="/static/assets/js/app-custom.js"></script>
+
+<!-- Page Plugins -->
+<script src="/static/assets/js/plugins/slick/slick.min.js"></script>
+
+<!-- Template Main JS File -->
+<script src="/static/assets/js/plugins/select2/select2.full.min.js"></script>
+<script src="/static/assets/js/main.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		/* ----- 侧边悬浮 ---- */
+		$(document).on("mouseenter", ".suspension .a", function(){
+			var _this = $(this);
+			var s = $(".suspension");
+			var isService = _this.hasClass("a-service");
+			var isServicePhone = _this.hasClass("a-service-phone");
+			var isQrcode = _this.hasClass("a-qrcode");
+			if(isService){ s.find(".d-service").show().siblings(".d").hide();}
+			if(isServicePhone){ s.find(".d-service-phone").show().siblings(".d").hide();}
+			if(isQrcode){ s.find(".d-qrcode").show().siblings(".d").hide();}
+		});
+		$(document).on("mouseleave", ".suspension, .suspension .a-top", function(){
+			$(".suspension").find(".d").hide();
+		});
+		$(document).on("mouseenter", ".suspension .a-top", function(){
+			$(".suspension").find(".d").hide(); 
+		});
+		$(document).on("click", ".suspension .a-top", function(){
+			$("html,body").animate({scrollTop: 0});
+		});
+		$(window).scroll(function(){
+			var st = $(document).scrollTop();
+			var $top = $(".suspension .a-top");
+			if(st > 400){
+				$top.css({display: 'block'});
+			}else{
+				if ($top.is(":visible")) {
+					$top.hide();
+				}
+			}
+		});
+		
+	});	
+	function mbar(url){
+		var tempwindow=window.open('_blank');
+		tempwindow.location=url;
+	}
+</script>

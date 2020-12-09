@@ -1,0 +1,8 @@
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+venv
+media
+*.py[cod]
+.idea
+db.sqlite3
